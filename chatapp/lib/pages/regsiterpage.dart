@@ -3,7 +3,6 @@ import 'package:chatapp/pages/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:chatapp/components/my_textfield.dart';
 import 'package:chatapp/components/my_button.dart';
-import 'package:chatapp/pages/loginpage.dart';
 
 class Registerpage extends StatelessWidget {
   final TextEditingController _emailcontroller = TextEditingController();
@@ -85,7 +84,13 @@ class Registerpage extends StatelessWidget {
               const Text("Already a member ?",
                   style: TextStyle(color: Color.fromARGB(255, 84, 83, 83))),
               GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Loginpage(),
+                        ));
+                  },
                   child: const Text(" Login ",
                       style: TextStyle(
                           color: Colors.blue, fontWeight: FontWeight.bold)))
