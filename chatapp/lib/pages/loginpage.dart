@@ -1,15 +1,14 @@
-import 'package:chatapp/auth/auth_serice.dart';
+import 'package:chatapp/services/auth/auth_serice.dart';
 import 'package:chatapp/components/my_button.dart';
 import 'package:chatapp/components/my_textfield.dart';
 import 'package:flutter/material.dart';
-import 'package:chatapp/pages/regsiterpage.dart';
 
 class Loginpage extends StatelessWidget {
   final TextEditingController _emailcontroller = TextEditingController();
   final TextEditingController _pwcontroller = TextEditingController();
   //Tap to go to register page
-
-  Loginpage({super.key});
+  final void Function()? onTap;
+  Loginpage({super.key, required this.onTap});
 
   void login(BuildContext context) async {
     final authService = AuthService();
@@ -66,13 +65,7 @@ class Loginpage extends StatelessWidget {
               const Text("Not a member? ",
                   style: TextStyle(color: Color.fromARGB(255, 84, 83, 83))),
               GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Registerpage(),
-                        ));
-                  },
+                  onTap: onTap,
                   child: const Text(" Register now ",
                       style: TextStyle(
                           color: Colors.blue, fontWeight: FontWeight.bold)))

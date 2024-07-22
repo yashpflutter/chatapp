@@ -1,15 +1,10 @@
 import 'package:chatapp/pages/home_page.dart';
 import 'package:chatapp/pages/settingpage.dart';
 import 'package:flutter/material.dart';
-import 'package:chatapp/auth/auth_serice.dart';
+import 'package:chatapp/services/auth/auth_serice.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
-
-  void logout() {
-    final _auth = AuthService();
-    _auth.signOut();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +59,8 @@ class MyDrawer extends StatelessWidget {
                 leading: const Icon(Icons.logout,
                     color: Color.fromARGB(255, 56, 55, 55)),
                 onTap: () {
-                  logout();
+                  final auth = AuthService();
+                  auth.signOut();
                 },
               ),
             )

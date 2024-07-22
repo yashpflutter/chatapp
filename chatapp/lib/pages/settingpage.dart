@@ -8,9 +8,11 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Setting"),
-      ),
-      drawer: MyDrawer(),
+          backgroundColor: Colors.green,
+          actionsIconTheme: const IconThemeData(),
+          iconTheme: const IconThemeData(color: Colors.white),
+          title: const Text("Setting", style: TextStyle(color: Colors.white)),
+          actions: const [Icon(Icons.search), SizedBox(width: 5)]),
     );
   }
 }
