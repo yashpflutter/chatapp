@@ -22,9 +22,14 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("CHiTCHaT", style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.green,
-        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.grey.shade700,
+        title: const Text("CHiTCHaT",
+            style: TextStyle(
+                color: Color.fromARGB(255, 33, 121, 34),
+                fontWeight: FontWeight.bold)),
+        iconTheme:
+            const IconThemeData(color: Color.fromARGB(255, 100, 100, 100)),
       ),
       drawer: const MyDrawer(),
       drawerEnableOpenDragGesture: true,
@@ -68,8 +73,8 @@ class HomePage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ChatPage(
-                    receiverID: userData['uid'],
                     receiverEmail: userData["email"],
+                    receiverID: userData["uid"],
                   ),
                 ));
           });

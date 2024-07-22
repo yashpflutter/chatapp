@@ -1,5 +1,9 @@
-import 'package:chatapp/components/my_drawer.dart';
+import 'package:chatapp/themes/theme_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -7,12 +11,37 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Colors.green,
-          actionsIconTheme: const IconThemeData(),
-          iconTheme: const IconThemeData(color: Colors.white),
-          title: const Text("Setting", style: TextStyle(color: Colors.white)),
-          actions: const [Icon(Icons.search), SizedBox(width: 5)]),
-    );
+        appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            foregroundColor: Colors.grey.shade700,
+            actionsIconTheme: IconThemeData(),
+            iconTheme: const IconThemeData(color: Colors.grey),
+            title: const Text("Setting"),
+            actions: const [
+              Icon(
+                Icons.search,
+                color: Colors.grey,
+              ),
+              SizedBox(width: 5),
+            ]),
+        body: Container(
+          decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.secondary,
+              borderRadius: BorderRadius.circular(12)),
+          margin: const EdgeInsets.all(25),
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("Dark Mode"),
+              CupertinoSwitch(
+                  value: Provider.of<ThemeProvider>(context, listen: false)
+                      .isDarkMode,
+                  onChanged: (value) =>
+                      Provider.of<ThemeProvider>(context, listen: false)
+                          .toggleTheme())
+            ],
+          ),
+        ));
   }
 }

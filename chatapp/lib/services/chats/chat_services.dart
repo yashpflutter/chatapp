@@ -28,8 +28,8 @@ class chatService {
 
 //cretae a new message
     Message newMessage = Message(
-      senderID: currentUserEmail,
-      senderEmail: currentUserId,
+      senderID: currentUserId,
+      senderEmail: currentUserEmail,
       receiverID: receiverID,
       message: message,
       timestamp: timestamp,
@@ -56,7 +56,7 @@ class chatService {
     String chatroomID = ids.join('_');
 
     return _firestore
-        .collection("chat_rooms")
+        .collection("chatrooms")
         .doc(chatroomID)
         .collection("message")
         .orderBy("timestamp", descending: false)

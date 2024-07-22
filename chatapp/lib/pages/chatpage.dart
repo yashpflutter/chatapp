@@ -1,10 +1,10 @@
+import 'package:chatapp/components/chat_bubble.dart';
 import 'package:chatapp/components/my_textfield.dart';
 import 'package:chatapp/services/chats/chat_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:chatapp/services/auth/auth_serice.dart';
-import 'package:chatapp/models/message.dart';
-import 'package:flutter/widgets.dart';
 
 class ChatPage extends StatelessWidget {
   final String receiverEmail;
@@ -28,10 +28,15 @@ class ChatPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.grey.shade700,
         centerTitle: true,
         title: Text(receiverEmail),
       ),
       body: Column(children: [
+        const SizedBox(
+          height: 10,
+        ),
         Expanded(
           child: _buildMessageList(),
         ),
@@ -46,7 +51,9 @@ class ChatPage extends StatelessWidget {
         stream: _chatService.getMessage(receiverID, senderID),
         builder: (context, snapshot) {
           //error
-          if (snapshot.hasError) return const Text("Error");
+          if (snapshot.hasError) {
+            return const Text("Error");
+          }
           //loading
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Text("Loading..");
@@ -62,20 +69,47 @@ class ChatPage extends StatelessWidget {
 
   Widget _buildMessageItem(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-    return Text(data["message"]);
+    bool isCurrentUser = data['senderID'] == _authService.getCurrentUser()!.uid;
+
+    var alignment =
+        isCurrentUser ? Alignment.centerRight : Alignment.centerLeft;
+
+    return Padding(
+        padding: const EdgeInsets.only(left: 5),
+        child: Container(
+            alignment: alignment,
+            child: Column(
+              crossAxisAlignment: isCurrentUser
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
+              children: [
+                ChatBubble(
+                    message: data["message"], isCurrentUser: isCurrentUser)
+              ],
+            )));
   }
 
   Widget _buildUserInput() {
-    return Row(
-      children: [
-        Expanded(
-            child: MyTextField(
-                hintText: "Type a message",
-                obscureText: false,
-                controller: _messageController)),
-        IconButton(
-            onPressed: sendMessage, icon: const Icon(Icons.arrow_upward)),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: Row(
+        children: [
+          Expanded(
+              child: MyTextField(
+                  hintText: "Type a message",
+                  obscureText: false,
+                  controller: _messageController)),
+          Container(
+            decoration: const BoxDecoration(
+                shape: BoxShape.circle, color: Colors.green),
+            margin: const EdgeInsets.only(right: 25),
+            child: IconButton(
+                color: Colors.white,
+                onPressed: sendMessage,
+                icon: const Icon(Icons.arrow_upward)),
+          ),
+        ], //row children
+      ),
     );
   }
 }
